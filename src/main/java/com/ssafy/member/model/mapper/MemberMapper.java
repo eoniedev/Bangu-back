@@ -1,12 +1,11 @@
 package com.ssafy.member.model.mapper;
 
+import com.ssafy.member.model.dto.MemberDto;
+import org.apache.ibatis.annotations.Mapper;
+
 import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
-
-import org.apache.ibatis.annotations.Mapper;
-
-import com.ssafy.member.model.dto.MemberDto;
 
 @Mapper
 public interface MemberMapper {

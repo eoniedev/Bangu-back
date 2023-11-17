@@ -1,15 +1,12 @@
 package com.ssafy.member.model.service;
 
-import java.sql.SQLException;
+import com.ssafy.member.model.dto.MemberDto;
+import com.ssafy.member.model.mapper.MemberMapper;
+import org.springframework.stereotype.Service;
+
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
-import org.mybatis.spring.annotation.MapperScan;
-import org.springframework.stereotype.Service;
-
-import com.ssafy.member.model.dto.MemberDto;
-import com.ssafy.member.model.mapper.MemberMapper;
 
 @Service
 public class MemberServiceImpl implements MemberService {
