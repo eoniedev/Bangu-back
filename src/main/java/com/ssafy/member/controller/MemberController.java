@@ -99,8 +99,8 @@ public class MemberController {
 		Map<String, Object> resultMap = new HashMap<String, Object>();
 		HttpStatus status = HttpStatus.ACCEPTED;
 		try {
+			memberDto.setUserPwd(hashUtill.Hashing(memberDto.getUserPwd(), memberDto.getUserId()));
 			MemberDto loginUser = memberService.login(memberDto);
-			memberDto.setUserPwd(hashUtill.Hashing(loginUser.getUserPwd(), loginUser.getUserId()));
 			if(loginUser != null) {
 				String accessToken = jwtUtil.createAccessToken(loginUser.getUserId());
 				String refreshToken = jwtUtil.createRefreshToken(loginUser.getUserId());
