@@ -17,10 +17,9 @@ public class JWTInterceptor implements HandlerInterceptor {
 
     private final String HEADER_AUTH = "Authorization";
 
-    private JWTUtil jwtUtil;
+    private final JWTUtil jwtUtil;
 
     public JWTInterceptor(JWTUtil jwtUtil) {
-        super();
         this.jwtUtil = jwtUtil;
     }
 
