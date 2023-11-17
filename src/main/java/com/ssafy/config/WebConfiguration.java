@@ -1,5 +1,6 @@
 package com.ssafy.config;
 
+import com.ssafy.interceptor.JWTInterceptor;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.web.servlet.config.annotation.CorsRegistry;
@@ -10,7 +11,11 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 @Configuration
 @EnableWebMvc
 public class WebConfiguration implements WebMvcConfigurer {
+	private JWTInterceptor jwtInterceptor;
 
+	public WebConfiguration(JWTInterceptor jwtInterceptor) {
+		this.jwtInterceptor = jwtInterceptor;
+	}
 	@Override
 	public void addCorsMappings(CorsRegistry registry) {
 //		System.out.println("CORS Setting");

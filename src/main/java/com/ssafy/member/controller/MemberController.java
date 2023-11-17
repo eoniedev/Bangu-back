@@ -1,15 +1,12 @@
 package com.ssafy.member.controller;
 
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpSession;
 
 import io.swagger.annotations.ApiOperation;
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.ui.Model;
@@ -29,10 +26,8 @@ import io.swagger.annotations.ApiParam;
 
 @RestController
 @RequestMapping("/user")
+@Slf4j
 public class MemberController {
-
-    private final Logger logger = LoggerFactory.getLogger(MemberController.class);
-
     private final MemberService memberService;
     private final JWTUtil jwtUtil;
 
@@ -43,7 +38,7 @@ public class MemberController {
 
     @GetMapping("/{userid}")
     public ResponseEntity<?> idCheck(@PathVariable("userid") String userId) throws Exception {
-        logger.debug("idCheck userid : {}", userId);
+        log.debug("idCheck userid : {}", userId);
         int cnt = memberService.idCheck(userId);
         String result = cnt == 1 ? "idCheck 성공" : "idCheck 실패";
 
@@ -52,7 +47,7 @@ public class MemberController {
 
     @PostMapping("/join")
     public ResponseEntity<?> join(MemberDto memberDto, Model model) {
-        logger.debug("memberDto info : {}", memberDto);
+        log.debug("memberDto info : {}", memberDto);
         // 비밀번호 해싱 처리
         String hashedPassword = HashUtill.getInstance().Hashing(memberDto.getUserPwd(), memberDto.getUserId());
         memberDto.setUserPwd(hashedPassword);
@@ -60,7 +55,7 @@ public class MemberController {
             memberService.joinMember(memberDto);
             return ResponseEntity.status(HttpStatus.OK).body("회원가입 성공");
         } catch (Exception e) {
-            logger.debug(e.getMessage());
+            log.debug(e.getMessage());
             model.addAttribute("msg", "회원 가입 중 문제 발생");
             return ResponseEntity.status(HttpStatus.OK).body("회원가입실패");
         }
@@ -68,7 +63,7 @@ public class MemberController {
 
     @PostMapping("/login")
     public ResponseEntity<Map<String, Object>> login(@RequestBody @ApiParam(value = "로그인 시 필요한 회원정보(아이디, 비밀번호).", required = true) MemberDto memberDto) {
-        logger.debug("login user : {}", memberDto);
+        log.debug("login user : {}", memberDto);
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
         try {
@@ -77,8 +72,8 @@ public class MemberController {
             if (loginUser != null) {
                 String accessToken = jwtUtil.createAccessToken(loginUser.getUserId());
                 String refreshToken = jwtUtil.createRefreshToken(loginUser.getUserId());
-                logger.debug("access token : {}", accessToken);
-                logger.debug("refresh token : {}", refreshToken);
+                log.debug("access token : {}", accessToken);
+                log.debug("refresh token : {}", refreshToken);
 
 //				발급받은 refresh token을 DB에 저장.
                 memberService.saveRefreshToken(loginUser.getUserId(), refreshToken);
@@ -94,7 +89,7 @@ public class MemberController {
             }
 
         } catch (Exception e) {
-            logger.debug("로그인 에러 발생 : {}", e.getMessage());
+            log.debug("로그인 에러 발생 : {}", e.getMessage());
             resultMap.put("message", e.getMessage());
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
@@ -107,19 +102,19 @@ public class MemberController {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
         if (jwtUtil.checkToken(request.getHeader("Authorization"))) {
-            logger.info("사용 가능한 토큰");
+            log.info("사용 가능한 토큰");
             try {
 
                 MemberDto memberDto = memberService.getMember(userId);
                 resultMap.put("userInfo", memberDto);
                 status = HttpStatus.OK;
             } catch (Exception e) {
-                logger.error("정보조회 실패 : {}", e.getMessage());
+                log.error("정보조회 실패 : {}", e.getMessage());
                 resultMap.put("message", e.getMessage());
                 status = HttpStatus.INTERNAL_SERVER_ERROR;
             }
         } else {
-            logger.error("사용 불가능 토큰");
+            log.error("사용 불가능 토큰");
             status = HttpStatus.UNAUTHORIZED;
         }
         return new ResponseEntity<>(resultMap, status);
@@ -134,7 +129,7 @@ public class MemberController {
             memberService.deleRefreshToken(userId);
             status = HttpStatus.OK;
         } catch (Exception e) {
-            logger.error("로그아웃 실패 : {}", e.getMessage());
+            log.error("로그아웃 실패 : {}", e.getMessage());
             resultMap.put("message", e.getMessage());
             status = HttpStatus.INTERNAL_SERVER_ERROR;
         }
@@ -148,17 +143,17 @@ public class MemberController {
         Map<String, Object> resultMap = new HashMap<>();
         HttpStatus status = HttpStatus.ACCEPTED;
         String token = request.getHeader("refreshToken");
-        logger.debug("token : {}, memberDto : {}", token, memberDto);
+        log.debug("token : {}, memberDto : {}", token, memberDto);
         if (jwtUtil.checkToken(token)) {
             if (token.equals(memberService.getRefreshToken(memberDto.getUserId()))) {
                 String accessToken = jwtUtil.createAccessToken(memberDto.getUserId());
-                logger.debug("token : {}", accessToken);
-                logger.debug("정상적으로 액세스토큰 재발급");
+                log.debug("token : {}", accessToken);
+                log.debug("정상적으로 액세스토큰 재발급");
                 resultMap.put("access-token", accessToken);
                 status = HttpStatus.CREATED;
             }
         } else {
-            logger.debug("리프레쉬토큰도 사용불가");
+            log.debug("리프레쉬토큰도 사용불가");
             status = HttpStatus.UNAUTHORIZED;
         }
         return new ResponseEntity<>(resultMap, status);
