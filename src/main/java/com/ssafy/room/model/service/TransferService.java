@@ -7,10 +7,12 @@ import java.util.Map;
 
 public interface TransferService {
     void registerRoom(RoomDto roomDto) throws Exception;
-    List<RoomDto> listRooms() throws Exception;
-    List<RoomDto> listRoomsByOptions(Map<String, String> options) throws Exception;
-    RoomDto getRoom(long roomId) throws Exception;
 
+    List<RoomDto> listRooms() throws Exception;
+
+    List<RoomDto> listRoomsByOptions(Map<String, String> options) throws Exception;
+
+    RoomDto getRoom(long roomId) throws Exception;
 
 
 }

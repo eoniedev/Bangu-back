@@ -22,20 +22,20 @@ public class TransferController {
     }
 
     @GetMapping("/list")
-    public ResponseEntity<List<RoomDto>> listRooms() throws Exception{
+    public ResponseEntity<List<RoomDto>> listRooms() throws Exception {
         List<RoomDto> rooms = transferService.listRooms();
         return ResponseEntity.ok(rooms);
     }
 
 
     @PostMapping("/transfer")
-    public ResponseEntity transfer(@RequestBody RoomDto roomDto) throws Exception {
+    public ResponseEntity<?> transfer(@RequestBody RoomDto roomDto) throws Exception {
         transferService.registerRoom(roomDto);
         return ResponseEntity.ok().build();
     }
 
     @GetMapping("list/option")
-    public ResponseEntity<List<RoomDto>> listRoomsByOptions(@RequestParam Map<String, String> options) throws Exception{
+    public ResponseEntity<List<RoomDto>> listRoomsByOptions(@RequestParam Map<String, String> options) throws Exception {
         List<RoomDto> rooms = transferService.listRoomsByOptions(options);
         return ResponseEntity.ok(rooms);
     }

@@ -11,7 +11,7 @@ import java.util.Map;
 
 @Service
 @Slf4j
-public class TransferServiceImpl implements TransferService{
+public class TransferServiceImpl implements TransferService {
     private final RoomMapper roomMapper;
 
     public TransferServiceImpl(RoomMapper roomMapper) {
