@@ -28,10 +28,10 @@
 		values (#{userName}, #{userId}, #{userPwd}, #{emailId}, #{emailDomain}, now())
 	</insert>
 
-	<select id="loginMember" parameterType="map" resultMap="member">
-		select user_id, user_name
+	<select id="login" parameterType="map" resultMap="member">
+		select user_id, user_name, token
 		from members
-		where user_id = #{userid} and user_password = #{userpwd}
+		where user_id = #{userId} and user_password = #{userPwd}
 	</select>
 	
 	<!-- ADMIN -->
@@ -61,5 +61,21 @@
 		delete from members
 		where user_id = #{userId}
 	</delete>
+		<update id="saveRefreshToken" parameterType="map">
+		update members
+		set token = #{token}
+		where user_id = #{userId}
+	</update>
 	
+	<select id="getRefreshToken" parameterType="string" resultType="string">
+		select token
+		from members
+		where user_id = #{userId}
+	</select>
+	
+	<update id="deleteRefreshToken" parameterType="map">
+		update members
+		set token = #{token, jdbcType=VARCHAR}
+		where user_id = #{userId}
+	</update>
 </mapper>

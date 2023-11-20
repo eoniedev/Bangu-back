@@ -1,4 +1,4 @@
-package com.ssafy.member.controller;
+package com.ssafy.util;
 
 import java.nio.charset.StandardCharsets;
 import java.security.MessageDigest;
