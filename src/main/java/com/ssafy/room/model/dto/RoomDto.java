@@ -24,5 +24,6 @@ public class RoomDto {
     private String endDate;
     private int deposit;
     private int monthly;
+    private List<Integer> options;
     private List<FileInfoDto> fileInfos;
 }
