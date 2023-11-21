@@ -1,0 +1,20 @@
+###
+GET http://localhost:8080/room/list
+
+###
+POST http://localhost:8080/room/transfer
+Content-Type: application/json
+{
+    "lat": "37.244434",
+    "lng": "127.343434",
+    "comment": "채광 대박입니다. 정문 5분거리",
+    "subject": "쪽문 5분거리 원룸 양도합니다.",
+    "startDate": "2023-02-01",
+    "endDate": "2023-03-01",
+    "userId": "ssafy",
+    "deposit": "500",
+    "monthly": "40"
+}
+
+###
+http://localhost:8080/rooms/list/option?startDate=2023-02-02&endDate=2023-03-05&deposit=500&monthly=40

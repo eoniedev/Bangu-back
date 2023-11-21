@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.ssafy.room.model.mapper.RoomMapper">
+
+    <resultMap id="room" type="roomDto">
+        <result column="id" property="id"/>
+        <result column="user_id" property="userId"/>
+        <result column="lat" property="lat"/>
+        <result column="lag" property="lag"/>
+        <result column="subject" property="subject"/>
+        <result column="comment" property="comment"/>
+        <result column="end_date" property="endDate"/>
+        <result column="start_date" property="startDate"/>
+        <result column="register_time" property="registerTime"/>
+    </resultMap>
+
+    <select id="getRoom" parameterType="long">
+        select *
+        from rooms
+        where id = #{roomId}
+    </select>
+
+    <select id="listRooms">
+        select *
+        from rooms
+        limit 0, 10
+    </select>
+
+    <select id="listRoomsByOptions" parameterType="map">
+        select *
+        from rooms
+        where start_date <![CDATA[<=]]> #{startDate} and end_date <![CDATA[>=]]> #{endDate}
+            and deposit <![CDATA[<=]]> #{deposit}
+            and monthly <![CDATA[<=]]> #{monthly}
+    </select>
+
+    <insert id="registerRoom" parameterType="RoomDto">
+        insert into rooms (user_id, comment, subject, lat, lng, start_date, end_date, deposit, monthly, register_time)
+        values (#{userId}, #{comment}, #{subject}, #{lat}, #{lng}, #{startDate}, #{endDate}, #{deposit}, #{monthly}, now())
+        <selectKey resultType="int" keyProperty="id" order="AFTER">
+            select last_insert_id()
+        </selectKey>
+    </insert>
+
+    <insert id="registerFile" parameterType="RoomDto">
+        insert into file_info (room_id, save_folder, original_file, save_file)
+        values
+        <foreach collection="fileInfos" item="fileinfo" separator=" , ">
+            (#{id}, #{fileinfo.saveFolder}, #{fileinfo.originalFile}, #{fileinfo.saveFile})
+        </foreach>
+    </insert>
+
+    <sql id="search">
+        <if test="word != null and word != ''">
+            <if test="key == 'subject'">
+                and subject like concat('%', #{word}, '%')
+            </if>
+            <if test="key != 'subject'">
+                and ${key} = #{word}
+            </if>
+        </if>
+    </sql>
+
+    <select id="fileInfoList">
+        select save_folder, original_file, save_file
+        from file_info
+        where article_no = #{articleNo}
+    </select>
+
+    <delete id="deleteFile" parameterType="long">
+        delete from file_info
+        where room_id = #{roomId}
+    </delete>
+
+
+</mapper>
