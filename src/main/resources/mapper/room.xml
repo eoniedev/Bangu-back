@@ -46,12 +46,19 @@
     </select>
 
 
-    <insert id="registerRoom" parameterType="RoomDto">
+    <insert id="registerRoom" parameterType="roomDto">
         insert into rooms (user_id, comment, subject, lat, lng, start_date, end_date, deposit, monthly, register_time)
         values (#{userId}, #{comment}, #{subject}, #{lat}, #{lng}, #{startDate}, #{endDate}, #{deposit}, #{monthly}, now())
         <selectKey resultType="int" keyProperty="id" order="AFTER">
             select last_insert_id()
         </selectKey>
+    </insert>
+
+    <insert id="insertOptions" parameterType="roomDto">
+        INSERT INTO options (room_id, opt) VALUES
+        <foreach collection="options" item="opt" separator=" , ">
+            (#{id}, #{opt})
+        </foreach>
     </insert>
 
     <insert id="registerFile" parameterType="RoomDto">
