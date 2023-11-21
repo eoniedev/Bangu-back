@@ -17,3 +17,15 @@ Content-Type: application/json
     "monthly": "40",
     "options": [1,2,3,4]
 }
+
+###
+POST http://localhost:8080/rooms/list/option
+Content-Type: application/json
+
+{
+  "startDate": "2023-02-01",
+  "endDate": "2023-03-01",
+  "deposit": "500",
+  "monthly": "40",
+  "options": [1,2,3,4]
+}

@@ -39,6 +39,7 @@ public class TransferServiceImpl implements TransferService {
 
     @Override
     public List<RoomDto> listRoomsByOptions(SearchDto options) throws Exception {
+        options.setCount(options.getOptions().size());
         return roomMapper.listRoomsByOptions(options);
     }
 

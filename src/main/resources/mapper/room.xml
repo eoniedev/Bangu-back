@@ -29,7 +29,7 @@
     </select>
 
     <select id="listRoomsByOptions" parameterType="searchDto">
-        SELECT r.id, r.subject, r.deposit, r.monthly, r.lat, r.lng
+        SELECT r.user_id, r.subject, r.deposit, r.monthly, r.lat, r.lng
         FROM rooms r
         JOIN options o ON r.id = o.room_id
         WHERE o.opt IN
