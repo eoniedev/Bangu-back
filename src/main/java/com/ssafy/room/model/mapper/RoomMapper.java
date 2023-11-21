@@ -1,17 +1,17 @@
 package com.ssafy.room.model.mapper;
 
 import com.ssafy.room.model.dto.RoomDto;
+import com.ssafy.room.model.dto.SearchDto;
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;
-import java.util.Map;
 
 @Mapper
 public interface RoomMapper {
 
     List<RoomDto> listRooms() throws Exception;
 
-    List<RoomDto> listRoomsByOptions(Map<String, String> options) throws Exception;
+    List<RoomDto> listRoomsByOptions(SearchDto options) throws Exception;
 
     void registerRoom(RoomDto roomDto) throws Exception;
 
@@ -20,4 +20,6 @@ public interface RoomMapper {
     RoomDto getRoom(long roomId) throws Exception;
 
     void deleteFile(long roomId) throws Exception;
+
+    void insertOptions(RoomDto roomDto) throws Exception;
 }

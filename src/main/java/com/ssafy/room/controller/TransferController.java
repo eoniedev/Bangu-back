@@ -1,6 +1,7 @@
 package com.ssafy.room.controller;
 
 import com.ssafy.room.model.dto.RoomDto;
+import com.ssafy.room.model.dto.SearchDto;
 import com.ssafy.room.model.service.TransferService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -13,8 +14,6 @@ import java.util.Map;
 @RequestMapping("/rooms")
 @Slf4j
 public class TransferController {
-
-
     private final TransferService transferService;
 
     public TransferController(TransferService transferService) {
@@ -34,9 +33,9 @@ public class TransferController {
         return ResponseEntity.ok().build();
     }
 
-    @GetMapping("list/option")
-    public ResponseEntity<List<RoomDto>> listRoomsByOptions(@RequestParam Map<String, String> options) throws Exception {
-        List<RoomDto> rooms = transferService.listRoomsByOptions(options);
+    @PostMapping("list/option")
+    public ResponseEntity<List<RoomDto>> listRoomsByOptions(@RequestBody SearchDto searchOption) throws Exception {
+        List<RoomDto> rooms = transferService.listRoomsByOptions(searchOption);
         return ResponseEntity.ok(rooms);
     }
 

@@ -1,6 +1,5 @@
 package com.ssafy.room.model.dto;
 
-import com.ssafy.board.model.FileInfoDto;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -12,18 +11,11 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @ToString
-public class RoomDto {
-    private long id;
-    private String userId;
-    private String lat;
-    private String lng;
-    private String comment;
-    private String subject;
-    private String registerTime;
+public class SearchDto {
     private String startDate;
     private String endDate;
     private int deposit;
     private int monthly;
+    private int count;
     private List<Integer> options;
-    private List<FileInfoDto> fileInfos;
 }

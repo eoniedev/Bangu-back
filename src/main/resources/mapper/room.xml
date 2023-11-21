@@ -28,20 +28,37 @@
         limit 0, 10
     </select>
 
-    <select id="listRoomsByOptions" parameterType="map">
-        select *
-        from rooms
-        where start_date <![CDATA[<=]]> #{startDate} and end_date <![CDATA[>=]]> #{endDate}
-            and deposit <![CDATA[<=]]> #{deposit}
-            and monthly <![CDATA[<=]]> #{monthly}
+    <select id="listRoomsByOptions" parameterType="searchDto">
+        SELECT r.id, r.subject, r.deposit, r.monthly, r.lat, r.lng
+        FROM rooms r
+        JOIN options o ON r.id = o.room_id
+        WHERE o.opt IN
+        <foreach item="opt" index="index" collection="options" open="(" separator="," close=")">
+            #{opt}
+        </foreach>
+        and r.start_date <![CDATA[<=]]> #{startDate}
+        and end_date <![CDATA[>=]]> #{endDate}
+        and deposit <![CDATA[<=]]> #{deposit}
+        and monthly <![CDATA[<=]]> #{monthly}
+        GROUP BY r.id
+        HAVING COUNT(DISTINCT o.opt) = #{count};
+
     </select>
 
-    <insert id="registerRoom" parameterType="RoomDto">
+
+    <insert id="registerRoom" parameterType="roomDto">
         insert into rooms (user_id, comment, subject, lat, lng, start_date, end_date, deposit, monthly, register_time)
         values (#{userId}, #{comment}, #{subject}, #{lat}, #{lng}, #{startDate}, #{endDate}, #{deposit}, #{monthly}, now())
         <selectKey resultType="int" keyProperty="id" order="AFTER">
             select last_insert_id()
         </selectKey>
+    </insert>
+
+    <insert id="insertOptions" parameterType="roomDto">
+        INSERT INTO options (room_id, opt) VALUES
+        <foreach collection="options" item="opt" separator=" , ">
+            (#{id}, #{opt})
+        </foreach>
     </insert>
 
     <insert id="registerFile" parameterType="RoomDto">
