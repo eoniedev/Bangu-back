@@ -24,6 +24,8 @@ public class TransferServiceImpl implements TransferService {
     @Transactional
     public void registerRoom(RoomDto roomDto) throws Exception {
         roomMapper.registerRoom(roomDto);
+        log.debug(String.valueOf(roomDto.getId()));
+        roomMapper.insertOptions(roomDto);
         List<FileInfoDto> fileInfos = roomDto.getFileInfos();
         if (fileInfos != null && !fileInfos.isEmpty()) {
             roomMapper.registerFile(roomDto);
