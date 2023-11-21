@@ -2,12 +2,13 @@ package com.ssafy.room.model.service;
 
 import com.ssafy.board.model.FileInfoDto;
 import com.ssafy.room.model.dto.RoomDto;
+import com.ssafy.room.model.dto.SearchDto;
 import com.ssafy.room.model.mapper.RoomMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
-import java.util.Map;
 
 @Service
 @Slf4j
@@ -20,6 +21,7 @@ public class TransferServiceImpl implements TransferService {
 
 
     @Override
+    @Transactional
     public void registerRoom(RoomDto roomDto) throws Exception {
         roomMapper.registerRoom(roomDto);
         List<FileInfoDto> fileInfos = roomDto.getFileInfos();
@@ -34,7 +36,7 @@ public class TransferServiceImpl implements TransferService {
     }
 
     @Override
-    public List<RoomDto> listRoomsByOptions(Map<String, String> options) throws Exception {
+    public List<RoomDto> listRoomsByOptions(SearchDto options) throws Exception {
         return roomMapper.listRoomsByOptions(options);
     }
 
