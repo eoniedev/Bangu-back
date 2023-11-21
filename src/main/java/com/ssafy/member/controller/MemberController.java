@@ -9,7 +9,6 @@ import io.swagger.annotations.ApiParam;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
@@ -19,7 +18,7 @@ import java.util.Map;
 @RestController
 @RequestMapping("/user")
 @Slf4j
-public class MemberController {
+public class MemberController {             //TODO: 서비스 로직이랑 분리하기!!
     private final MemberService memberService;
     private final JWTUtil jwtUtil;
 
@@ -38,18 +37,18 @@ public class MemberController {
     }
 
     @PostMapping("/join")
-    public ResponseEntity<?> join(MemberDto memberDto, Model model) {
+    public ResponseEntity<?> join(@RequestBody MemberDto memberDto) {
         log.debug("memberDto info : {}", memberDto);
         // 비밀번호 해싱 처리
         String hashedPassword = HashUtill.getInstance().Hashing(memberDto.getUserPwd(), memberDto.getUserId());
         memberDto.setUserPwd(hashedPassword);
         try {
             memberService.joinMember(memberDto);
-            return ResponseEntity.status(HttpStatus.OK).body("회원가입 성공");
+            return ResponseEntity.status(HttpStatus.CREATED).body("회원가입 성공");
         } catch (Exception e) {
             log.debug(e.getMessage());
-            model.addAttribute("msg", "회원 가입 중 문제 발생");
-            return ResponseEntity.status(HttpStatus.OK).body("회원가입실패");
+//            model.addAttribute("msg", "회원 가입 중 문제 발생");
+            return ResponseEntity.status(HttpStatus.CONFLICT).body("회원가입실패");
         }
     }
 
@@ -96,7 +95,7 @@ public class MemberController {
         if (jwtUtil.checkToken(request.getHeader("Authorization"))) {
             log.info("사용 가능한 토큰");
             try {
-
+                //TODO: 유저정보 일부만 리턴하도록 수정하기
                 MemberDto memberDto = memberService.getMember(userId);
                 resultMap.put("userInfo", memberDto);
                 status = HttpStatus.OK;
