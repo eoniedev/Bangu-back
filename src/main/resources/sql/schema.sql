@@ -82,42 +82,35 @@ create table whereismyhome.board
         foreign key (user_id) references whereismyhome.members (user_id)
 );
 
+create table whereismyhome.file_info
+(
+    idx           int auto_increment
+        primary key,
+    article_no    int         null,
+    save_folder   varchar(45) null,
+    original_file varchar(50) null,
+    save_file     varchar(50) null,
+    constraint file_info_to_board_article_no_fk
+        foreign key (article_no) references whereismyhome.board (article_no)
+);
+
 create table whereismyhome.rooms
 (
     id            bigint auto_increment
         primary key,
     lat           varchar(255)  not null,
-    `lag`         varchar(255)  not null,
+    lng           varchar(255)  not null,
     comment       varchar(1000) null,
     user_id       varchar(16)   not null,
     subject       varchar(255)  null,
     register_time timestamp     null,
     start_date    date          null,
     end_date      date          null,
+    deposit       int           null,
+    monthly       int           null,
     constraint rooms_ibfk_1
         foreign key (user_id) references whereismyhome.members (user_id)
 );
-
-create table whereismyhome.file_info
-(
-    id            bigint auto_increment
-        primary key,
-    room_id       bigint      null,
-    save_folder   varchar(45) null,
-    original_file varchar(50) null,
-    save_file     varchar(50) null,
-    article_no    int         null,
-    constraint file_info_to_board_artice_no_fk
-        foreign key (article_no) references whereismyhome.board (article_no),
-    constraint file_info_to_rooms_id_fk
-        foreign key (room_id) references whereismyhome.rooms (id)
-);
-
-create index file_info_to_board_artice_no_fk_idx
-    on whereismyhome.file_info (article_no);
-
-create index file_info_to_rooms_id_fk_idx
-    on whereismyhome.file_info (room_id);
 
 create table whereismyhome.options
 (
@@ -128,7 +121,4 @@ create table whereismyhome.options
     constraint options_rooms_id_fk
         foreign key (room_id) references whereismyhome.rooms (id)
 );
-
-create index user_id
-    on whereismyhome.rooms (user_id);
 
