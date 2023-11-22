@@ -34,7 +34,7 @@ build/
 
 
 ### custom ###
-/src/main/resources/application.properties
+/src/main/resources/secret.properties
 /bin/
 /.settings/
 /.metadata/
