@@ -32,9 +32,9 @@ build/
 ### VS Code ###
 .vscode/
 
+secret.properties
 
-### custom ###
-/src/main/resources/application.properties
+
 /bin/
 /.settings/
 /.metadata/
