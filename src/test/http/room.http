@@ -1,9 +1,10 @@
 ###
-GET http://localhost:8080/room/list
+GET http://localhost:8080/rooms/list
 
 ###
-POST http://localhost:8080/room/transfer
+POST http://localhost:8080/rooms/transfer
 Content-Type: application/json
+
 {
     "lat": "37.244434",
     "lng": "127.343434",
@@ -13,8 +14,18 @@ Content-Type: application/json
     "endDate": "2023-03-01",
     "userId": "ssafy",
     "deposit": "500",
-    "monthly": "40"
+    "monthly": "40",
+    "options": [1,2,3,4]
 }
 
 ###
-http://localhost:8080/rooms/list/option?startDate=2023-02-02&endDate=2023-03-05&deposit=500&monthly=40
+POST http://localhost:8080/rooms/list/option
+Content-Type: application/json
+
+{
+  "startDate": "2023-02-01",
+  "endDate": "2023-03-01",
+  "deposit": "500",
+  "monthly": "40",
+  "options": [1,2,3,4]
+}
