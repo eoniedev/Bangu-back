@@ -22,4 +22,6 @@ public interface RoomMapper {
     void deleteFile(long roomId) throws Exception;
 
     void insertOptions(RoomDto roomDto) throws Exception;
+
+    List<Integer> getOptions(long roomId);
 }

@@ -45,6 +45,8 @@ public class TransferServiceImpl implements TransferService {
 
     @Override
     public RoomDto getRoom(long roomId) throws Exception {
-        return roomMapper.getRoom(roomId);
+        RoomDto room = roomMapper.getRoom(roomId);
+        room.setOptions(roomMapper.getOptions(roomId));
+        return room;
     }
 }

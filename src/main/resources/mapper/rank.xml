@@ -10,6 +10,7 @@
         join dongcode d on r.dong_code = d.dongCode
         group by d.sidoName
         order by count desc, region asc
+        limit 5;
     </select>
 
     <select id="rankingTopCity">
