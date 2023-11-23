@@ -17,9 +17,10 @@
     </resultMap>
 
     <select id="getRoom" parameterType="long">
-        select *
-        from rooms
-        where id = #{roomId}
+        select r.*, m.gender
+        from rooms r
+        join members m on r.user_id = m.user_id
+        where r.id = #{roomId}
     </select>
 
     <select id="listRooms">

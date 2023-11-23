@@ -27,4 +27,5 @@ public class RoomDto {
     private List<Integer> options;
     private List<FileInfoDto> fileInfos;
     private String dongCode;
+    private int gender;
 }
