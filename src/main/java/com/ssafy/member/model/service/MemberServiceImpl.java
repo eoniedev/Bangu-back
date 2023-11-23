@@ -24,6 +24,7 @@ public class MemberServiceImpl implements MemberService {
 
     @Override
     public int joinMember(MemberDto memberDto) throws Exception {
+        memberDto.setGenderInt(memberDto.getGender().ordinal());
         return memberMapper.joinMember(memberDto);
     }
 
