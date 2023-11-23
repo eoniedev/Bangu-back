@@ -4,29 +4,12 @@
 
 <mapper namespace="com.ssafy.room.model.mapper.RankMapper">
 
-    <select id="listRoomsByOptions" parameterType="searchDto">
-        SELECT r.id, r.user_id, r.subject, r.deposit, r.monthly, r.lat, r.lng
-        FROM rooms r
-        JOIN options o ON r.id = o.room_id
-        WHERE o.opt IN
-        <foreach item="opt" index="index" collection="options" open="(" separator="," close=")">
-            #{opt}
-        </foreach>
-        and r.start_date <![CDATA[<=]]> #{startDate}
-        and end_date <![CDATA[>=]]> #{endDate}
-        and deposit <![CDATA[<=]]> #{deposit}
-        and monthly <![CDATA[<=]]> #{monthly}
-        GROUP BY r.id
-        HAVING COUNT(DISTINCT o.opt) = #{count};
-
-    </select>
-
     <select id="rankingByCity">
         SELECT d.sidoName as region, count(r.id) as count
         from rooms r
         join dongcode d on r.dong_code = d.dongCode
         group by d.sidoName
-        order by count desc
+        order by count desc, region asc
     </select>
 
     <select id="rankingTopCity">
@@ -43,9 +26,10 @@
         from rooms r
         join members m on r.user_id = m.user_id
         join dongcode d on r.dong_code = d.dongCode
-        where d.sidoName = #{city} and m.gender = 1
+        where d.sidoName = #{city} and m.gender = 1 and d.dongName is not null
         group by d.dongName
-        order by count desc;
+        order by count desc, region asc
+        limit 5;
     </select>
 
     <select id="rankingByMale">
@@ -53,8 +37,9 @@
         from rooms r
         join members m on r.user_id = m.user_id
         join dongcode d on r.dong_code = d.dongCode
-        where d.sidoName = #{city} and m.gender = 0
+        where d.sidoName = #{city} and m.gender = 0 and d.dongName is not null
         group by d.dongName
-        order by count desc;
+        order by count desc, region asc
+        limit 5;
     </select>
 </mapper>
