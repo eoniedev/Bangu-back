@@ -47,8 +47,8 @@
 
 
     <insert id="registerRoom" parameterType="roomDto">
-        insert into rooms (user_id, comment, subject, lat, lng, start_date, end_date, deposit, monthly, register_time)
-        values (#{userId}, #{comment}, #{subject}, #{lat}, #{lng}, #{startDate}, #{endDate}, #{deposit}, #{monthly}, now())
+        insert into rooms (user_id, comment, subject, lat, lng, start_date, end_date, deposit, monthly, dongCode, register_time)
+        values (#{userId}, #{comment}, #{subject}, #{lat}, #{lng}, #{startDate}, #{endDate}, #{deposit}, #{monthly}, #{dongCode}, now())
         <selectKey resultType="int" keyProperty="id" order="AFTER">
             select last_insert_id()
         </selectKey>
