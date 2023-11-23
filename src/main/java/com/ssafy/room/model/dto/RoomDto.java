@@ -26,4 +26,5 @@ public class RoomDto {
     private int monthly;
     private List<Integer> options;
     private List<FileInfoDto> fileInfos;
+    private String dongCode;
 }

@@ -29,7 +29,7 @@
     </select>
 
     <select id="listRoomsByOptions" parameterType="searchDto">
-        SELECT r.user_id, r.subject, r.deposit, r.monthly, r.lat, r.lng
+        SELECT r.id, r.user_id, r.subject, r.deposit, r.monthly, r.lat, r.lng
         FROM rooms r
         JOIN options o ON r.id = o.room_id
         WHERE o.opt IN
@@ -47,8 +47,8 @@
 
 
     <insert id="registerRoom" parameterType="roomDto">
-        insert into rooms (user_id, comment, subject, lat, lng, start_date, end_date, deposit, monthly, register_time)
-        values (#{userId}, #{comment}, #{subject}, #{lat}, #{lng}, #{startDate}, #{endDate}, #{deposit}, #{monthly}, now())
+        insert into rooms (user_id, comment, subject, lat, lng, start_date, end_date, deposit, monthly, dong_code, register_time)
+        values (#{userId}, #{comment}, #{subject}, #{lat}, #{lng}, #{startDate}, #{endDate}, #{deposit}, #{monthly}, #{dongCode}, now())
         <selectKey resultType="int" keyProperty="id" order="AFTER">
             select last_insert_id()
         </selectKey>
