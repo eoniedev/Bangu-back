@@ -91,5 +91,9 @@
         where room_id = #{roomId}
     </delete>
 
-
+    <select id="getOptions" parameterType="long">
+        select opt
+        from options
+        where room_id = #{roomId}
+    </select>
 </mapper>
