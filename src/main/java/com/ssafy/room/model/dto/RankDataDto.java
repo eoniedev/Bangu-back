@@ -9,7 +9,7 @@ import lombok.ToString;
 @Setter
 @ToString
 @NoArgsConstructor
-public class RankDto {
+public class RankDataDto {
     private String region;
-    private Long count;
+    private int count;
 }

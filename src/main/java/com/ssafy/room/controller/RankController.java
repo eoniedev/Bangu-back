@@ -1,6 +1,6 @@
 package com.ssafy.room.controller;
 
-import com.ssafy.room.model.dto.RankDto;
+import com.ssafy.room.model.dto.RankInfoDto;
 import com.ssafy.room.model.service.RankService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -23,19 +23,19 @@ public class RankController {
 
     @GetMapping("/city")
     public ResponseEntity<?> rankByCity() {
-        List<RankDto> rankDtoList = rankService.rankByCity();
-        return ResponseEntity.ok(rankDtoList);
+        RankInfoDto rankInfo = rankService.rankByCity();
+        return ResponseEntity.ok(rankInfo);
     }
 
     @GetMapping("/female")
     public ResponseEntity<?> rankByFemale() {
-        List<RankDto> rankDtoList = rankService.rankByFemale();
-        return ResponseEntity.ok(rankDtoList);
+        RankInfoDto rankInfo = rankService.rankByFemale();
+        return ResponseEntity.ok(rankInfo);
     }
 
     @GetMapping("/male")
     public ResponseEntity<?> rankByMale() {
-        List<RankDto> rankDtoList = rankService.rankByMale();
-        return ResponseEntity.ok(rankDtoList);
+        RankInfoDto rankInfo = rankService.rankByMale();
+        return ResponseEntity.ok(rankInfo);
     }
 }
