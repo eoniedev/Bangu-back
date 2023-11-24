@@ -18,7 +18,7 @@ public class MailController {
     }
     @PostMapping
     public ResponseEntity<?> sendApplyMail(@RequestBody ApplyInfoDto applyInfoDto) throws Exception {
-        mailService.generateMessage(applyInfoDto);
+        mailService.sendApplyTransfer(applyInfoDto);
         return ResponseEntity.ok().build();
     }
 }
