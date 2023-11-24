@@ -24,10 +24,12 @@ public class MailService {
         this.memberMapper = memberMapper;
     }
 
-    public void sendApplyTransfer(EmailMessage emailMessage) {
+    public void sendApplyTransfer(ApplyInfoDto applyInfoDto) throws Exception {
+        EmailMessage emailMessage = generateMessage(applyInfoDto);
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
         simpleMailMessage.setTo(emailMessage.getTo());
-        simpleMailMessage.setFrom("forbangu@gmail.com");
+        simpleMailMessage.setFrom(emailMessage.getFrom());
+        simpleMailMessage.setSubject(emailMessage.getSubject());
         simpleMailMessage.setText(emailMessage.getMessage());
 
         javaMailSender.send(simpleMailMessage);
@@ -35,7 +37,14 @@ public class MailService {
 
     public EmailMessage generateMessage(ApplyInfoDto applyInfoDto) throws Exception {
         RoomDto roomDto = roomMapper.getRoom(applyInfoDto.getRoomId());
+        MemberDto targetDto = memberMapper.getMember(roomDto.getUserId());
         MemberDto memberDto = memberMapper.getMember(applyInfoDto.getUserId());
-        return null;
+
+        return EmailMessage.builder()
+                .from("forbangu@gmail.com")
+                .to(memberDto.getEmailId()+'@'+memberDto.getEmailDomain())
+                .subject("[Bangu] 신청한 양도 정보입니다.")
+                .message("임차인의 정보입니다: " + targetDto.getEmailId()+'@'+targetDto.getEmailDomain())
+                .build();
     }
 }

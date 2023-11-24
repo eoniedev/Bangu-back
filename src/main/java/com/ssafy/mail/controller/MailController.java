@@ -17,8 +17,8 @@ public class MailController {
         this.mailService = mailService;
     }
     @PostMapping
-    public ResponseEntity sendApplyMail(@RequestBody ApplyInfoDto applyInfoDto) {
+    public ResponseEntity<?> sendApplyMail(@RequestBody ApplyInfoDto applyInfoDto) throws Exception {
+        mailService.generateMessage(applyInfoDto);
         return ResponseEntity.ok().build();
     }
-
 }
