@@ -9,6 +9,7 @@ import com.ssafy.room.model.mapper.RoomMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.mail.SimpleMailMessage;
 import org.springframework.mail.javamail.JavaMailSender;
+import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -23,7 +24,7 @@ public class MailService {
         this.roomMapper = roomMapper;
         this.memberMapper = memberMapper;
     }
-
+    @Async
     public void sendApplyTransfer(ApplyInfoDto applyInfoDto) throws Exception {
         EmailMessage emailMessage = generateMessage(applyInfoDto);
         SimpleMailMessage simpleMailMessage = new SimpleMailMessage();
