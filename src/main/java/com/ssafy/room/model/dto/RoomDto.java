@@ -1,6 +1,6 @@
 package com.ssafy.room.model.dto;
 
-import com.ssafy.board.model.FileInfoDto;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -25,7 +25,7 @@ public class RoomDto {
     private int deposit;
     private int monthly;
     private List<Integer> options;
-    private List<FileInfoDto> fileInfos;
+    //private List<FileInfoDto> fileInfos;
     private String dongCode;
     private int gender;
 }

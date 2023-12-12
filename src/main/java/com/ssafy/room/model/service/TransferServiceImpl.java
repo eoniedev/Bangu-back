@@ -1,6 +1,5 @@
 package com.ssafy.room.model.service;
 
-import com.ssafy.board.model.FileInfoDto;
 import com.ssafy.room.model.dto.RoomDto;
 import com.ssafy.room.model.dto.SearchDto;
 import com.ssafy.room.model.mapper.RoomMapper;
@@ -26,10 +25,10 @@ public class TransferServiceImpl implements TransferService {
         roomMapper.registerRoom(roomDto);
         log.debug(String.valueOf(roomDto.getId()));
         roomMapper.insertOptions(roomDto);
-        List<FileInfoDto> fileInfos = roomDto.getFileInfos();
-        if (fileInfos != null && !fileInfos.isEmpty()) {
-            roomMapper.registerFile(roomDto);
-        }
+//        List<FileInfoDto> fileInfos = roomDto.getFileInfos();
+//        if (fileInfos != null && !fileInfos.isEmpty()) {
+//            roomMapper.registerFile(roomDto);
+//        }
     }
 
     @Override
