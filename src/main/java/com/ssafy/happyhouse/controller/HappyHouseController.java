@@ -4,8 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 import java.util.Map;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -18,11 +17,11 @@ import com.ssafy.happyhouse.model.dto.HouseInfoDto;
 import com.ssafy.happyhouse.model.service.HouseServiceImpl;
 
 @RestController
-@RequestMapping("/house")	// ${root}/house?~
-public class HappyHouseController {
+@RequestMapping("/house")
+@Slf4j
+public class HappyHouseController {		//TODO: Exception handling
 	
 	HouseServiceImpl houseService;
-	Logger logger = LoggerFactory.getLogger(HappyHouseController.class);
 	
 	public HappyHouseController(HouseServiceImpl houseService) {
 		this.houseService = houseService;
@@ -30,7 +29,7 @@ public class HappyHouseController {
 	
 	@GetMapping("/deal")
 	public ResponseEntity<?> searchDeal(@RequestParam Long no) {
-		logger.info("-----get searchDeal");
+		log.info("-----get searchDeal");
 		HouseDealDto housDealDto = houseService.searchDeal(no);
 		
 		return ResponseEntity
@@ -40,7 +39,7 @@ public class HappyHouseController {
 	
 	@GetMapping("/search-dong")
 	public ResponseEntity<?> searchByDong(@RequestParam Map<String,String> info) throws SQLException {
-		logger.info("-----get searchByDong");
+		log.info("-----get searchByDong");
 		List<HouseInfoDto> houseInfoDtoList = houseService.searchByStringAddress(info);
 	
 		if(houseInfoDtoList == null) {
@@ -56,7 +55,7 @@ public class HappyHouseController {
 	
 	@GetMapping("/search-apt")
 	public ResponseEntity<?> searchByApt(@RequestParam Long aptCode) throws SQLException {
-		logger.info("-----get searchByApt");
+		log.info("-----get searchByApt");
 		List<HouseDealDto> aptDealDtoList = houseService.searchAptDealByAptCode(aptCode);
 		if(aptDealDtoList == null) {
 			ResponseEntity
