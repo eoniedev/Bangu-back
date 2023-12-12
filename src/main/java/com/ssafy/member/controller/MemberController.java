@@ -39,7 +39,6 @@ public class MemberController {             //TODO: 서비스 로직이랑 분�
     @PostMapping("/join")
     public ResponseEntity<?> join(@RequestBody MemberDto memberDto) {
         log.debug("memberDto info : {}", memberDto);
-        // 비밀번호 해싱 처리
         String hashedPassword = HashUtill.getInstance().Hashing(memberDto.getUserPwd(), memberDto.getUserId());
         memberDto.setUserPwd(hashedPassword);
         try {
@@ -47,7 +46,6 @@ public class MemberController {             //TODO: 서비스 로직이랑 분�
             return ResponseEntity.status(HttpStatus.CREATED).body("회원가입 성공");
         } catch (Exception e) {
             log.debug(e.getMessage());
-//            model.addAttribute("msg", "회원 가입 중 문제 발생");
             return ResponseEntity.status(HttpStatus.CONFLICT).body("회원가입실패");
         }
     }
